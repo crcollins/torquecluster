@@ -70,6 +70,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   puts numNodes
   config.vm.define :master do |master|
     master.vm.box = "precise32"
+    master.vm.box_url = "http://files.vagrantup.com/precise32.box"
     master.vm.network :private_network, ip: "192.168.1.100"
     master.vm.hostname = "master"
     master.vm.provision :shell, :inline => $hosts_script, :args => "'%d'" % numNodes
@@ -81,6 +82,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     val = num + 100
     config.vm.define nodeName do |node|
       node.vm.box = "precise32"
+      node.vm.box_url = "http://files.vagrantup.com/precise32.box"
       node.vm.network :private_network, ip: "192.168.1." + val.to_s
       node.vm.hostname = "slave" + num.to_s
       node.vm.provision :shell, :inline => $hosts_script, :args => "'%d'" % numNodes
