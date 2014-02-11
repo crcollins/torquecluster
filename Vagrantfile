@@ -66,22 +66,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.customize ["modifyvm", :id, "--memory", "512"]
   end
 
+  numNodes = ENV["NODES"].to_i
+  puts numNodes
   config.vm.define :master do |master|
     master.vm.box = "precise32"
     master.vm.network :private_network, ip: "192.168.1.100"
     master.vm.hostname = "master"
-    master.vm.provision :shell, :inline => $hosts_script, :args => "'4'"
-    master.vm.provision :shell, :inline => $master_script, :args => "'4'"
+    master.vm.provision :shell, :inline => $hosts_script, :args => "'%d'" % numNodes
+    master.vm.provision :shell, :inline => $master_script, :args => "'%d'" % numNodes
   end
-
-  1.upto(4) do |num|
+  
+  1.upto(numNodes) do |num|
     nodeName = ("slave" + num.to_s).to_sym
     val = num + 100
     config.vm.define nodeName do |node|
       node.vm.box = "precise32"
       node.vm.network :private_network, ip: "192.168.1." + val.to_s
       node.vm.hostname = "slave" + num.to_s
-      node.vm.provision :shell, :inline => $hosts_script, :args => "'4'"
+      node.vm.provision :shell, :inline => $hosts_script, :args => "'%d'" % numNodes
       node.vm.provision :shell, :inline => $slave_script, :args => "'%d'" % num
     end
   end
