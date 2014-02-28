@@ -57,7 +57,7 @@ $logevent       255
 EOF
 SCRIPT
 
-
+id_rsa_ssh_key_pub = File.read("id_rsa.pub")
 
 VAGRANTFILE_API_VERSION = "2"
 
@@ -73,10 +73,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.box_url = "http://files.vagrantup.com/precise32.box"
     master.vm.network :private_network, ip: "192.168.1.100"
     master.vm.hostname = "master"
+
+    config.vm.provision :shell, :inline => "echo 'Copying public Key to VM auth_keys...' && mkdir -p /home/vagrant/.ssh && echo '#{id_rsa_ssh_key_pub }' >> /home/vagrant/.ssh/authorized_keys && chmod 600 /home/vagrant/.ssh/authorized_keys"
+
     master.vm.provision :shell, :inline => $hosts_script, :args => "'%d'" % numNodes
     master.vm.provision :shell, :inline => $master_script, :args => "'%d'" % numNodes
   end
-  
+
   1.upto(numNodes) do |num|
     nodeName = ("slave" + num.to_s).to_sym
     val = num + 100
