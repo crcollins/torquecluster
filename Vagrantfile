@@ -22,6 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     master.vm.provision :shell, :path => "hosts.sh", :args => "'%d'" % numNodes
     master.vm.provision :shell, :path => "master.sh", :args => "'%d'" % numNodes
+    master.vm.provision :shell, :path => "both.sh"
   end
 
   1.upto(numNodes) do |num|
@@ -34,6 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.hostname = "slave" + num.to_s
       node.vm.provision :shell, :path => "hosts.sh", :args => "'%d'" % numNodes
       node.vm.provision :shell, :path => "slave.sh", :args => "'%d'" % num
+      node.vm.provision :shell, :path => "both.sh"
     end
   end
 end
