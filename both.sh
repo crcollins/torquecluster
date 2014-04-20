@@ -17,3 +17,8 @@ cat > /usr/local/bin/formchk <<EOF
 cat /etc/gaussian/A_TON_A_A_TD.fchk
 EOF
 chmod +x /usr/local/bin/formchk
+
+cat > /usr/local/bin/module <<EOF
+#!/bin/bash
+EOF
+chmod +x /usr/local/bin/module
