@@ -14,7 +14,7 @@ chmod +x /usr/local/bin/g09
 cat > /usr/local/bin/formchk <<EOF
 #!/bin/bash
 
-cat /etc/gaussian/A_TON_A_A_TD.fchk
+cat /etc/gaussian/A_TON_A_A_TD.fchk > \$2
 EOF
 chmod +x /usr/local/bin/formchk
 
