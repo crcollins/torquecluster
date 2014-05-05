@@ -1,7 +1,3 @@
-
-
-Usage
-
 TorqueCluster
 ================
 A simple Torque cluster builder intended to be used in conjunction with chemtools-webapp.
